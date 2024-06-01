@@ -49,6 +49,16 @@ app.post("/api/users", async (req, res) => {
   }
 });
 
+app.get("/api/users", async (req, res) => {
+  try {
+    const users = await User.find().select('_id username');
+    res.json(users);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'Failed to retrieve users' });
+  }
+});
+
 app.post("/api/users/:_id/exercises", async (req, res) => {
   const userId = req.params._id;
   const { description, duration, date } = req.body;
